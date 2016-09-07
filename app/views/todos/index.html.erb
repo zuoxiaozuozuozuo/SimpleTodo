@@ -1,0 +1,43 @@
+<div class="main box">
+  <% if flash[:notice] %>
+    <p class="box notice" > <%= flash[:notice]%> </p>
+  <% end %>
+
+  <div class="box todos">
+    <h2 class="box">待办事项</h2>
+    <ul>
+      <% @todos.each do |date, todos| %>
+        <h5><%= date %></h5>
+        <% todos.each do |todo| %>
+          <li>
+            <% if todo.is_finished %>
+                <del><%= todo.title %></del>
+              <% else %>
+                <%= todo.title %>
+            <% end %>
+            <span class="timeinfo"><%= todo.created_at.to_formatted_s(:db) %></span>
+            <% if todo.remark %>
+              <%= link_to edit_todo_path(todo.id), class: 'remark', title: todo.remark do %>
+                  <i class="iconfont">&#xe61d;</i>
+              <% end %>
+            <% end %>
+            <% if todo.is_finished %>
+                <%= link_to "取消", todo_path(todo.id, todo: {is_finished: false}), method: :patch %>,
+            <% else %>
+                <%= link_to "完成", todo_path(todo.id, todo: {is_finished: true}), method: :patch %>,
+            <% end %>
+            <%= link_to "编辑", edit_todo_path(todo.id) %>,
+            <%= link_to "删除", todo_path(todo.id), method: :delete, data: { confirm: 'Are you sure?'} %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+
+  <div class="box post">
+    <h2>添加</h2>
+    <%= render 'todos/form' %>
+  </div>
+
+</div>

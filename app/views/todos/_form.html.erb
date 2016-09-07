@@ -1,0 +1,6 @@
+<%= form_for @todo do |f| %>
+  <p> <%= f.text_field :title, class: 'long_txt' %> </p>
+  <p> <%= f.label "添加备注"  if params[:action] == 'edit' %> </p>
+  <p> <%= f.text_area :remark, class: 'long_txt', rows: 6  if params[:action] == 'edit' %> </p>
+  <p> <%= f.submit "提交", class: 'submit' %> </p>
+<% end %>
